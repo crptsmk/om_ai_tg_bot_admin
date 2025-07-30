@@ -79,7 +79,7 @@ class BuddahBaseBot:
         logger.info("✅ Бот успешно запущен и готов к работе!")
         
         # Ожидание завершения
-        await self.application.updater.idle()
+        await asyncio.Event().wait()
     
     async def stop(self):
         """Остановка бота"""
