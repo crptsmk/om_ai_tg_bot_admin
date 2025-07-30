@@ -1,4 +1,2 @@
 python-telegram-bot==20.7
 python-dotenv==1.0.0
-logging==0.4.9.6
-asyncio==3.4.3
