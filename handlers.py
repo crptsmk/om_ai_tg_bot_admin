@@ -132,6 +132,23 @@ class BotHandlers:
         results = []
         
         # Определяем, какой контент показать
+        if "файл" in query or "дайте" in query or "скинь" in query or "промпт" in query:
+            # Показываем сообщение о файлах
+            results.append(
+                InlineQueryResultArticle(
+                    id="files_request",
+                    title="📁 Хочешь файлы и промпты?",
+                    description="2000+ промптов, шаблоны, AI-инструменты",
+                    input_message_content=InputTextMessageContent(
+                        message_text=BotMessages.format_message(
+                            BotMessages.FILES_REQUEST_MESSAGE, 
+                            Config.ADMIN_CONTACT
+                        ),
+                        parse_mode='Markdown'
+                    )
+                )
+            )
+        
         if not query or "вступить" in query or "доступ" in query:
             # Показываем информацию о вступлении
             results.append(
