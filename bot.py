@@ -52,6 +52,9 @@ class BuddahBaseBot:
             MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, BotHandlers.handle_new_member)
         )
         
+        # Обработчик inline-запросов (для вызова бота в группах)
+        self.application.add_handler(InlineQueryHandler(BotHandlers.handle_inline_query))
+        
         # Обработчик обычных сообщений (группы и приватные чаты)
         self.application.add_handler(
             MessageHandler(
