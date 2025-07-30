@@ -102,6 +102,15 @@ class BotHandlers:
             )
             await update.message.reply_text(response, parse_mode='Markdown')
             logger.info(f"Sent start message to user {user_id} (bot mentioned)")
+        
+        # В приватном чате, если нет ключевых слов - отправляем стартовое сообщение
+        elif not is_group:
+            response = BotMessages.format_message(
+                BotMessages.START_MESSAGE, 
+                Config.ADMIN_CONTACT
+            )
+            await update.message.reply_text(response, parse_mode='Markdown')
+            logger.info(f"Sent start message to user {user_id} (private chat fallback)")
 
     @staticmethod
     async def handle_inline_query(update: Update, context: ContextTypes.DEFAULT_TYPE):
