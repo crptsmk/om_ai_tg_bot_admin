@@ -1,5 +1,5 @@
 import logging
-from telegram import Update
+from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import ContextTypes
 from config import Config
 from messages import BotMessages
