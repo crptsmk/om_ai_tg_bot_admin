@@ -51,10 +51,10 @@ class BuddahBaseBot:
             MessageHandler(filters.StatusUpdate.NEW_CHAT_MEMBERS, BotHandlers.handle_new_member)
         )
         
-        # Обработчик обычных сообщений (только в группах)
+        # Обработчик обычных сообщений (группы и приватные чаты)
         self.application.add_handler(
             MessageHandler(
-                filters.TEXT & filters.ChatType.GROUPS & ~filters.COMMAND, 
+                filters.TEXT & ~filters.COMMAND, 
                 BotHandlers.handle_message
             )
         )
