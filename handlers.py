@@ -67,10 +67,11 @@ class BotHandlers:
         
         # Проверяем ключевые слова
         has_join_keywords = any(keyword in message_text for keyword in Config.JOIN_KEYWORDS)
+        has_files_keywords = any(keyword in message_text for keyword in Config.FILES_KEYWORDS)
         has_engagement_keywords = any(keyword in message_text for keyword in Config.ENGAGEMENT_KEYWORDS)
         
         # В приватном чате отвечаем всегда, в группе - только при определенных условиях
-        should_respond = (not is_group) or bot_mentioned or is_reply_to_bot or has_join_keywords or has_engagement_keywords
+        should_respond = (not is_group) or bot_mentioned or is_reply_to_bot or has_join_keywords or has_files_keywords or has_engagement_keywords
         
         if not should_respond:
             logger.info(f"Ignoring message in group without trigger")
