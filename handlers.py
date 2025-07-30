@@ -77,8 +77,19 @@ class BotHandlers:
             logger.info(f"Ignoring message in group without trigger")
             return
 
-        # Проверяем, если сообщение содержит ключевые слова о вступлении
-        if has_join_keywords:
+        # Приоритет ответов: файлы > вступление > взаимодействие > упоминания
+        
+        # Проверяем запросы файлов (высший приоритет)
+        if has_files_keywords:
+            response = BotMessages.format_message(
+                BotMessages.FILES_REQUEST_MESSAGE, 
+                Config.ADMIN_CONTACT
+            )
+            await update.message.reply_text(response, parse_mode='Markdown')
+            logger.info(f"Sent files request message to user {user_id}")
+            
+        # Проверяем запросы о вступлении
+        elif has_join_keywords:
             response = BotMessages.format_message(
                 BotMessages.MAIN_INFO_MESSAGE, 
                 Config.ADMIN_CONTACT
