@@ -104,6 +104,67 @@ class BotHandlers:
             logger.info(f"Sent start message to user {user_id} (bot mentioned)")
 
     @staticmethod
+    async def handle_inline_query(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Обработчик inline-запросов"""
+        query = update.inline_query.query.lower() if update.inline_query.query else ""
+        
+        results = []
+        
+        # Определяем, какой контент показать
+        if not query or "вступить" in query or "доступ" in query:
+            # Показываем информацию о вступлении
+            results.append(
+                InlineQueryResultArticle(
+                    id="join_info",
+                    title="💎 Как вступить в Buddah Base",
+                    description="Полная информация о VEO 3 и подписке за 999₽",
+                    input_message_content=InputTextMessageContent(
+                        message_text=BotMessages.format_message(
+                            BotMessages.MAIN_INFO_MESSAGE, 
+                            Config.ADMIN_CONTACT
+                        ),
+                        parse_mode='Markdown'
+                    )
+                )
+            )
+        
+        if not query or "интересн" in query or "круто" in query or "veo" in query:
+            # Показываем призыв к действию
+            results.append(
+                InlineQueryResultArticle(
+                    id="engagement",
+                    title="🔥 Заинтересовался?",
+                    description="Получи доступ к VEO 3 и AI-инструментам",
+                    input_message_content=InputTextMessageContent(
+                        message_text=BotMessages.format_message(
+                            BotMessages.ENGAGEMENT_MESSAGE, 
+                            Config.ADMIN_CONTACT
+                        ),
+                        parse_mode='Markdown'
+                    )
+                )
+            )
+        
+        # Всегда показываем информацию о группе
+        results.append(
+            InlineQueryResultArticle(
+                id="group_info",
+                title="📌 О группе Buddah Base",
+                description="Структура группы и что внутри",
+                input_message_content=InputTextMessageContent(
+                    message_text=BotMessages.format_message(
+                        BotMessages.GROUP_INFO_MESSAGE, 
+                        Config.ADMIN_CONTACT
+                    ),
+                    parse_mode='Markdown'
+                )
+            )
+        )
+        
+        await update.inline_query.answer(results, cache_time=300)
+        logger.info(f"Answered inline query: '{query}' with {len(results)} results")
+
+    @staticmethod
     async def handle_new_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Обработчик новых участников группы"""
         for member in update.message.new_chat_members:
